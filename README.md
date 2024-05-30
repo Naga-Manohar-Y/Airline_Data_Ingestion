@@ -35,3 +35,55 @@ Loads the processed data into the flight fact table in Redshift.
 If the Glue Job is successful, a success notification is sent via SNS.
 If the Glue Job fails, a failure notification along with the failed data is sent via SNS.
 
+## S3 Bucket Setup
+Create an S3 bucket: airline-data-landing-zone-xxx
+Create two folders within the bucket:
+1.daily-flights
+2.dim
+Upload airport.csv to the dim folder.
+
+## Redshift Cluster Setup along with Dimensional and Fact tables
+Create a Redshift cluster along with IAM roles, username, and password.
+Open the Query Editor and connect to the Redshift cluster using the provided credentials.
+Create the airlines schema, airport_dim and daily_flights_fact tables using the SQL scripts in redshift_create_table.txt
+Copy the airports data to airport_dim table of redshift using copy script in redshift_create_table.txt change the S3 bucket and IAM role of redshift.
+
+## AWS Glue Setup
+### Glue Crawlers
+Create Three Crawlers:
+
+airport_dim_crawler for the dimension table in Redshift.
+daily_flights_fact_crawler for the fact table in Redshift.
+daily_flights_crawler for the daily flight data in S3.
+### Glue Crawlers Configuration:
+
+Create a JDBC connection to Redshift.
+Ensure Redshift VPC has an S3 endpoint and the security group allows Redshift port in inbound rules.
+Configure Glue connections with Redshift credentials.
+Create Glue roles with full Redshift access and test the connection.
+Create and run the crawlers to catalog the tables in the airline_datamart database.
+
+## Glue Job
+Create a Glue Job using Visual ETL:
+Add data source - Daily_flights_data: Select airline_datamart database and daily_flight table.
+Add a filter condition to filter delayed flights (>= 60 min).
+Source the airport_dims_data from using data source of redshift.
+Join the airport_dims_data with filtered data to add departure airport details (like city, state ) and modify the schema as required.
+Now again join the airport_dims_data with updated data to add arrival airport details (like city, state ) and modify the schema as required.
+Finally add the the data target flights_fact_table.
+Enable job bookmarking and save the job.
+
+## Step Functions Orchestration
+Configure Amazon EventBridge:
+Enable EventBridge for the S3 bucket source.
+In the Step Function, include the 'startCrawler' API with the daily_flights_crawler name.
+Then use 'GetCrawler' to read the status of crawler.
+Add 'Choice' block if the crawler is still running then it waits for 5 seconds and fethces the status. If is completed then it strat the Glue job with 'GlueStartJobRun'.
+If the job fails in any step it directly sends faliure notification. After glue job run completely but the data didn't reach the destination then also it sends failure notification.
+We will check for Glue_Job_Status using 'Choice' block. If succeeded the Success notification else failure notification using SNS to the subscriber.
+
+## Notifications
+Configure SNS:
+Set up SNS topics for success and failure notifications.
+Subscribe email addresses to the SNS topics for notifications.
+
