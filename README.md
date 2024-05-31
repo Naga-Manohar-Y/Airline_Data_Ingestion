@@ -46,9 +46,9 @@ Create two folders within the bucket:
 Upload airport.csv to the dim folder.
 
 ## Redshift Cluster Setup along with Dimensional and Fact tables
-Create a Redshift cluster along with IAM roles, username, and password.
-Open the Query Editor and connect to the Redshift cluster using the provided credentials.
-Create the airlines schema, airport_dim and daily_flights_fact tables using the SQL scripts in redshift_create_table.txt
+Create a Redshift cluster along with IAM roles, username, and password. <br>
+Open the Query Editor and connect to the Redshift cluster using the provided credentials. <br>
+Create the airlines schema, airport_dim and daily_flights_fact tables using the SQL scripts in redshift_create_table.txt <br>
 Copy the airports data to airport_dim table of redshift using copy script in redshift_create_table.txt change the S3 bucket and IAM role of redshift.
 
 ## AWS Glue Setup
