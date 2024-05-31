@@ -56,8 +56,8 @@ Copy the airports data to airport_dim table of redshift using copy script in red
 Create Three Crawlers:
 
 airport_dim_crawler for the dimension table in Redshift.  
-daily_flights_fact_crawler for the fact table in Redshift.
-daily_flights_crawler for the daily flight data in S3.
+daily_flights_fact_crawler for the fact table in Redshift.  
+daily_flights_crawler for the daily flight data in S3.  
 
 ### Glue Crawlers Configuration:
 Create a JDBC connection to Redshift.
