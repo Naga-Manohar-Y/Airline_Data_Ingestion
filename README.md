@@ -14,35 +14,32 @@ This project demonstrates an end-to-end data ingestion pipeline for airline data
 ## Workflow
 ### Data Ingestion:
 
-Flight data arrives daily in an S3 bucket in a Hive-style partition format.
+Flight data arrives daily in an S3 bucket in a Hive-style partition format.  
 An EventBridge rule captures the new data arrival event and triggers a Step Function.
 
 ### Data Orchestration:
 
-The Step Function orchestrates the workflow:
-Starts the Glue Crawler to catalog the new daily flight data in S3.
-Waits for the Glue Crawler to complete.
-Starts a Glue Job to process the flight data.
+The Step Function orchestrates the workflow:  
+Starts the Glue Crawler to catalog the new daily flight data in S3.  
+Waits for the Glue Crawler to complete.  
+Starts a Glue Job to process the flight data.  
 
 ### Data Processing:
 
-The Glue Job filters flights with delays of more than 60 minutes.
-Joins the flight data with airport details using the airport dimension table in Redshift.
-Loads the processed data into the flight fact table in Redshift.
+The Glue Job filters flights with delays of more than 60 minutes.  
+Joins the flight data with airport details using the airport dimension table in Redshift.  
+Loads the processed data into the flight fact table in Redshift.  
 
 ### Notifications:
 
-If the Glue Job is successful, a success notification is sent via SNS.
-If the Glue Job fails, a failure notification along with the failed data is sent via SNS.
+If the Glue Job is successful, a success notification is sent via SNS.  
+If the Glue Job fails, a failure notification along with the failed data is sent via SNS.  
 
 ## S3 Bucket Setup
-Create an S3 bucket: airline-data-landing-zone-xxx
+Create an S3 bucket: airline-data-landing-zone-xxx  
 Create two folders within the bucket:  
-
 1.daily-flights  
-
 2.dim  
-
 Upload airport.csv to the dim folder.
 
 ## Redshift Cluster Setup along with Dimensional and Fact tables
