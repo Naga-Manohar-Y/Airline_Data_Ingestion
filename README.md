@@ -1,6 +1,10 @@
 # Airline_Data_Ingestion
 An end-to-end data ingestion pipeline for airline data, utilizing various AWS services to process and store flight information efficiently.
 
+## Architecture
+
+![Architecture](/Architecture.png)
+
 ## Overview
 This project demonstrates an end-to-end data ingestion pipeline for airline data using various AWS services. The pipeline ingests daily flight data, processes it, and stores it in Amazon Redshift. Notifications are sent for both successful and failed data processing events. The project uses the following AWS services:
 
