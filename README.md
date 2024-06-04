@@ -45,8 +45,8 @@ Upload airport.csv to the dim folder.
 ## Redshift Cluster Setup along with Dimensional and Fact tables
 Create a Redshift cluster along with IAM roles, username, and password. <br>
 Open the Query Editor and connect to the Redshift cluster using the provided credentials. <br>
-Create the airlines schema, airport_dim and daily_flights_fact tables using the SQL scripts in redshift_create_table.txt <br>
-Copy the airports data to airport_dim table of redshift using copy script in redshift_create_table.txt change the S3 bucket and IAM role of redshift.
+Create the airlines schema, airport_dim and daily_flights_fact tables using the SQL scripts in redshift_create_table_commands.txt <br>
+Copy the airports data to airport_dim table of redshift using copy script in redshift_create_table_commands.txt change the S3 bucket and IAM role of redshift.
 
 ## AWS Glue Setup
 ### Glue Crawlers
@@ -92,6 +92,7 @@ Set up the S3 bucket and upload the airport.csv file.
 Create and configure the Redshift cluster.  
 Create Glue Crawlers and run them.  
 Create and configure the Glue Job.  
+**(Need to update glue job script generated for node Airport Dim Table From Redshift(source block script))**  
 Set up Step Functions and EventBridge rules.  
 Subscribe to SNS topics for notifications.  
 Trigger the workflow by uploading new flight data to the S3 bucket.  
